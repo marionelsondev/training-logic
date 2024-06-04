@@ -7,7 +7,7 @@ int main () {
         printf("Enter a positive number: \n");
         scanf("%d", &num);
         if (num <= 0) {
-            printf("Invalid number, you entered a value less than or equal to zero, please try again.\n");
+            printf("Invalid number, you entered a value less than or equal to zero, please enter a positive number.\n");
         }
     } while (num <= 0);
 
