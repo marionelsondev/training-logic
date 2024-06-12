@@ -15,9 +15,18 @@ while addItAsset == "S":
     countItAssetId += 1
     addItAsset = input("Type 'S' to register a new IT asset or press enter to exit the program: \n").upper()
 
+itSearch = input("Enter the name of the IT asset you want to search for: \n")
+found = False
 for index in range(0, len(itAssetId)):
-    print("-------------------------------\n","ID:", (index+1))
-    print("Name:", itName[index])
-    print("Type:", itAssetType[index])
-    print("Value:", itAssetValue[index])
-    print("Department:", itAssetDepartment[index])
+    if itSearch == itName[index]:
+        print("IT asset found!")
+        print("-------------------------------\n","ID:",(index+1))
+        print("Name:", itName[index])
+        print("Type:", itAssetType[index])
+        print("Value:", itAssetValue[index])
+        print("Department:", itAssetDepartment[index])
+        found = True
+        break
+
+if not found:
+    print("IT asset not found!")
