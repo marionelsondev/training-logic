@@ -6,6 +6,7 @@ def main():
     while option == "R" or option == "S" or option == "D" or  option == "L" or option == "F":
         if option == "R":
             register_user(users)
+            save_db(users)
         elif option == "S":
             search_user(users)
         elif option == "D":
