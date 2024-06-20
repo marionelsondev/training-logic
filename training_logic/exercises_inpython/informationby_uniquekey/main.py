@@ -2,11 +2,15 @@ from module.utils import *
 
 def main():
     users = {}
+    db_directory = r"C:\Users\Dylan\Documents\devs\training_logic\exercises_inpython\informationby_uniquekey\users_database"
+    file_path = os.path.join(db_directory, "db.txt")
+    
     option = ask()
-    while option == "R" or option == "S" or option == "D" or  option == "L" or option == "F":
+    while option in ["R", "E", "S", "D", "L", "F"]:
         if option == "R":
-            register_user(users)
-            save_db(users)
+            register_user(users, file_path)
+            save_db(users, file_path)
+            users.clear()
         elif option == "S":
             search_user(users)
         elif option == "D":
