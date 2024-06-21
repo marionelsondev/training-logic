@@ -12,7 +12,7 @@ def main():
             save_db(users, file_path)
             users.clear()
         elif option == "S":
-            search_user(users)
+            search_user(file_path)
         elif option == "D":
             delete_user(users)
         elif option == "L":
