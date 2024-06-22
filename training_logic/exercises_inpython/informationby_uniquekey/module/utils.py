@@ -29,27 +29,50 @@ def search_user(file_path):
     else:
         print("User not found")
 
-def delete_user(users_dictionary):
-    login = input("Enter the login of the user you want to delete:\n").upper()
-    if login in users_dictionary:
-        del users_dictionary[login]
-        print(f"User {login} deleted")
-    else:
-        print(f"Could not delete user.\n" + "Reason: User not found")
+# Delete the user from the database
 
-def list_users(users_dictionary):
-    if users_dictionary:
-        for login, details in users_dictionary.items():
-            print(f"------------------------\nLogin: {login}\nName: {details[0]}\nClass: {details[1]}\nAge: {details[2]}\n------------------------")
-    else:
-        print("No users registered")
+def delete_user(file_path):
+    login = input("Enter the login of the user you want to delete:\n").upper()
+    if not user_exists_in_db(login, file_path):
+        print(f"Could not delete user.\nReason: User {login} not found")
+        return
+    
+    with open(file_path, "r") as user_database:
+        lines = user_database.readlines()
+    
+    with open(file_path, "w") as user_database:
+        for line in lines:
+            user_key, _ = line.split(":")
+            if user_key.strip() != login:
+                user_database.write(line)
+            else:
+                print(f"User {login} deleted from database") 
+
+# List all users that exist in the database
+
+def list_users(file_path):
+    if not os.path.exists(file_path):
+        print("Database file does not exist.")
+        return
+
+    with open(file_path, "r") as user_database:
+        lines = user_database.readlines()
+        if not lines:
+            print("No users registered")
+            return
+        
+        for line in lines:
+            login, user_info = line.strip().split(":", 1)
+            user_info = eval(user_info.strip())
+            print(f"------------------------\nLogin: {login}\nName: {user_info[0]}\nSector: {user_info[1]}\nAge: {user_info[2]}\n------------------------")
 
 # Function that saves the user's record in the database
 
-def save_db(users_dictionary):
+def save_db(users_dictionary, file_path):
     db_directory = r"C:\Users\Dylan\Documents\devs\training_logic\exercises_inpython\informationby_uniquekey\users_database"
 
     if not os.path.exists(db_directory):
+        print("Database file does not exist.")
         os.makedirs(db_directory)
     
     file_path = os.path.join(db_directory, "db.txt")
@@ -63,6 +86,7 @@ def save_db(users_dictionary):
 
 def user_exists_in_db(login, file_path):
     if not os.path.exists(file_path):
+        print("Database file does not exist.")
         return False
     
     with open(file_path, "r") as user_database:
@@ -76,6 +100,7 @@ def user_exists_in_db(login, file_path):
 
 def get_user_info_from_db(login, file_path):
     if not os.path.exists(file_path):
+        print("Database file does not exist.")
         return None
     with open(file_path, "r") as user_database:
         for line in user_database:

@@ -14,9 +14,9 @@ def main():
         elif option == "S":
             search_user(file_path)
         elif option == "D":
-            delete_user(users)
+            delete_user(file_path)
         elif option == "L":
-            list_users(users)
+            list_users(file_path)
         elif option == "F":
             print("Program ended")
             break
