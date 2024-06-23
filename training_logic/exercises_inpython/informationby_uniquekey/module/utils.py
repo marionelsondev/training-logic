@@ -19,6 +19,32 @@ def register_user(users_dictionary, file_path):
     users_dictionary[login] = [name, user_sector, age]
     print(f"User {login} registered successfully.\n")
 
+# Edit user record
+
+def edit_user(file_path):
+    login = input("Enter the login of the user you want to edit:\n").upper()
+    if not user_exists_in_db(login, file_path):
+        print(f"User {login} not found")
+        return
+    
+    name = input("Enter the new user name: \n").upper()
+    user_sector = input("Enter the new user sector: \n").upper()
+    age = int(input("Enter the new user age: \n"))
+
+    updated_user_info = [name, user_sector, age]
+
+    with open(file_path, "r") as user_database:
+        lines = user_database.readlines()
+        
+    with open(file_path, "w") as user_database:
+        for line in lines:
+            user_key, _ = line.strip().split(":", 1)
+            if user_key.strip() == login:
+                user_database.write(f"{login}:{updated_user_info}\n")
+                print(f"User {login} updated successfully. \n")
+            else:
+                user_database.write(line)
+
 # Function that searches for and retrieves the requested user's record
 
 def search_user(file_path):
